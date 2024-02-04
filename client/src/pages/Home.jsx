@@ -4,7 +4,7 @@
 
 const Filter = () => {
     return (
-        <div className="flex sm:gap-4 gap-1 items-center bg-zinc-50 rounded-md sm:p-2  w-full">
+        <div className="flex sm:gap-4 gap-1 items-center bg-zinc-50 rounded-md sm:p-2 py-2 w-full">
 
             <div>
                 <button className="flex gap-1 justify-center items-center text-gray-700">
@@ -15,14 +15,14 @@ const Filter = () => {
             </div>
 
           <div>
-            <select name="semester" className="px-2 p-1 rounded-lg" >
+            <select name="semester" className="sm:px-2 p-1 rounded-lg" >
                 
                 <option value="6">sem 6th</option>
             </select>
           </div>
 
           <div>
-            <select name="section" className="px-2 p-1 rounded-lg" >
+            <select name="section" className="sm:px-2 p-1 rounded-lg" >
                 
                 <option value="A">sec A</option>
                 <option value="B">sec B</option>
@@ -30,7 +30,7 @@ const Filter = () => {
           </div>
 
           <div>
-            <select name="subject" className="px-2 p-1 rounded-lg outline-pink-300" onChange={(e)=>console.log(e.target.value)} >
+            <select name="subject" className="sm:px-2 p-1 rounded-lg outline-pink-300" onChange={(e)=>console.log(e.target.value)} >
                 
                 <option value="SE">SE</option>
                 <option value="CD">CD</option>
@@ -41,7 +41,7 @@ const Filter = () => {
           </div>
 
           <div>
-            <select name="module" className="px-2 p-1 rounded-lg" >
+            <select name="module" className="sm:px-2 p-1 rounded-lg" >
                 
                 <option value="1">1st</option>
                 <option value="2">2nd</option>
