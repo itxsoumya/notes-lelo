@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import NoteList from "../components/NoteList"
 
 
@@ -60,12 +61,14 @@ const Filter = () => {
 
 
 const Home = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="p-2 max-w-6xl bg-red-200s mx-auto ">
             <Filter />
 
             <div className="text-center">or</div>
-            <div className="text-center"> <button className="p-1 rounded-lg px-2 cursor-pointer bg-gray-100 hover:bg-gray-200">See Recent Uploads</button> </div>
+            <div className="text-center"> <button onClick={()=>navigate('/recent')} className="p-1 rounded-lg px-2 cursor-pointer bg-gray-100 hover:bg-gray-200">See Recent Uploads</button> </div>
 
 
             <div className="py-5 text-lg">
