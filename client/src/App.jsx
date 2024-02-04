@@ -5,10 +5,15 @@ import Home from "./pages/Home"
 
 const App = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col ">
       <NavBar />
-      <Home />
-      <Footer/>
+
+      <div className="grow bg-green-400x ">
+
+        <Home />
+      </div>
+
+      <Footer />
     </div>
   )
 }
