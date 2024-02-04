@@ -7,7 +7,7 @@ const NoteList = () => {
 
     return (
         <li className="sm:text-lg flex gap-2 text-base hover:bg-pink-100 p-1 rounded-md cursor-pointer" >
-            <div>
+            <div className="shrink-0">
                 [ {formattedDate} ]
             </div>
             <div className="grow text-blue-500 hover:text-blue-600 underline">
