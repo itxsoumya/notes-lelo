@@ -4,7 +4,7 @@
 
 const Filter = () => {
     return (
-        <div className="flex sm:gap-4 gap-1 items-center bg-zinc-50 rounded-md p-2 w-full">
+        <div className="flex sm:gap-4 gap-1 items-center bg-zinc-50 rounded-md sm:p-2  w-full">
 
             <div>
                 <button className="flex gap-1 justify-center items-center text-gray-700">
