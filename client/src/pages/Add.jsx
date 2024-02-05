@@ -21,6 +21,38 @@ const Manager = () => {
                     </label>
                 </div>
 
+                <div className="mt-4">
+                    <label htmlFor="semester">Chose Semester</label>
+                    <select required name="semester" id="" className="p-2 w-full rounded-md">
+                        <option value="6">6th</option>
+                    </select>
+
+                    <label htmlFor="section">Chose Section</label>
+                    <select name="section" id="" className="p-2 w-full rounded-md">
+                        <option value="A" > section A</option>
+                        <option value="B" > section B</option>
+                    </select>
+
+                    <label htmlFor="subject">Chose Subject</label>
+                    <select name="subject" id="" className="p-2 w-full rounded-md">
+                        <option value="SE">SE</option>
+                        <option value="CD">CD</option>
+                        <option value="IWT">IWT</option>
+                        <option value="WSN">WSN</option>
+                        <option value="SE_LAB">SE L.</option>
+                    </select>
+
+                    <label htmlFor="module">Chose Module</label>
+                    <select name="module" id="" className="p-2 w-full rounded-md">
+                        <option value="1">1st</option>
+                        <option value="2">2nd</option>
+                        <option value="3rd">3rd</option>
+                        
+                    </select>
+
+                    
+                </div>
+
 
 
                 <label className="mt-6">Leave a message</label>
