@@ -8,7 +8,8 @@ import { Note } from "../db";
 const router = Router();
 
 router.get('/hello', (req, res) => {
-    res.json({ msg: 'hello from /notes' })
+    console.log('hoooo')
+    return res.json({ msg: 'hello from /notes' })
 })
 
 router.get('/recent', async (req, res) => {

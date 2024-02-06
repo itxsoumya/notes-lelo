@@ -18,7 +18,7 @@ router.post('/auth', async (req, res) => {
     return res.status(403).json({ msg: 'please provide valid secret code' });
   }
   try {
-    const user = await User.findOne({ secretCode });
+    const user = await User.findOne({ secretCode }).select('-secretCode');
     if (!user) {
       return res.status(403).json({ msg: 'please provide valid secret code' });
     }
@@ -28,11 +28,12 @@ router.post('/auth', async (req, res) => {
     }
 
     const payload = {
-      username: user?.username,
-      userId: user?._id
+      username: user.username,
+      userId: user._id
     }
+    console.log(JWT_SECRET)
     const token = jwt.sign(payload, JWT_SECRET!);
-    return res.json({ token });
+    return res.json({ token, user });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: 'Internal Server Error' });

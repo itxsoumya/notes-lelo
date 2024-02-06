@@ -1,11 +1,25 @@
 import { Router } from "express";
 import jwt from 'jsonwebtoken';
 import { User } from "../db";
-import { isAdmin } from "../middleware";
+import { isAdmin, isAdminOrManager } from "../middleware";
 
 
 const JWT_SECRET = process.env.JWT_SECRET
 const router = Router()
+
+
+router.post('/me', isAdminOrManager, async (req, res) => {
+  try {
+    const user = await User.findById(req.body.authData.userId).select('-secretCode');
+    if (!user) {
+      return res.status(403).json({ msg: 'not a manager / admin' });
+    }
+    return res.json(user)
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: 'Internal Server Error' });
+  }
+})
 
 router.post('/auth', async (req, res) => {
   const { secretCode } = req.body;
@@ -14,7 +28,7 @@ router.post('/auth', async (req, res) => {
     return res.status(403).json({ msg: 'please provide a valid secret code' });
   }
   try {
-    const user = await User.findOne({ secretCode });
+    const user = await User.findOne({ secretCode }).select('-secretCode');
     if (!user) {
       return res.status(403).json({ msg: 'please provide a valid secret code' });
     }
@@ -27,7 +41,7 @@ router.post('/auth', async (req, res) => {
       userId: user?._id
     }
     const token = jwt.sign(payload, JWT_SECRET!);
-    return res.json({ token });
+    return res.json({ token,user });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: 'Internal Server Error' });
@@ -59,10 +73,10 @@ router.post('/addmanager', isAdmin, async (req, res) => {
       name: name,
       username: username,
       secretCode: random5digit(),
-      isManager:true
+      isManager: true
     })
     const user = await newUser.save();
-  
+
     return res.json({ msg: 'a new manager added successfully' })
 
   } catch (err) {
@@ -77,8 +91,8 @@ router.post('/addmanager', isAdmin, async (req, res) => {
 // it will return all available managers
 router.get('/all', isAdmin, async (req, res) => {
   try {
-    const managersList = await User.find({isManager:true})
-    return res.json({managersList });
+    const managersList = await User.find({ isManager: true })
+    return res.json({ managersList });
 
 
   } catch (err) {

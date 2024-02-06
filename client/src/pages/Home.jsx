@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import NoteList from "../components/NoteList"
 
 
@@ -75,14 +75,15 @@ const Home = () => {
                 Notes
             </div>
             <ul>
+                <Link to={'/auth'} >auth</Link>
 
+                {/* <NoteList/>
                 <NoteList/>
                 <NoteList/>
                 <NoteList/>
                 <NoteList/>
                 <NoteList/>
-                <NoteList/>
-                <NoteList/>
+                <NoteList/> */}
             </ul>
 
         </div>
