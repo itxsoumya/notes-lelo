@@ -5,9 +5,9 @@ import NotesRoute from './notes';
 
 const router = Router();
 
-router.get('/manager', ManagerRoute);
-router.get('/notes', NotesRoute);
-router.get('/admin', AdminRoute);
+router.use('/manager', ManagerRoute);
+router.use('/notes', NotesRoute);
+router.use('/admin', AdminRoute);
 
 
 
