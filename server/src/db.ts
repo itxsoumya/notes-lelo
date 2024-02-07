@@ -58,7 +58,7 @@ const User = model<UserInterface>('User', UserSchema)
 
 interface NotesInterface {
   title: string,
-  auther: Types.ObjectId,
+  author: Types.ObjectId,
   fileUrl: string,
   semester: number,
   section: string,
@@ -73,7 +73,7 @@ const NotesSchema = new Schema<NotesInterface>({
     minlength: 4,
     maxlength: 70,
   },
-  auther: {
+  author: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: User
