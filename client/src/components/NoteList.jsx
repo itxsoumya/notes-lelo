@@ -26,8 +26,8 @@ const NoteList = ({ date, title, filelink }) => {
                 [ {formattedDate} ]
             </div>
             <div className="grow text-blue-500 hover:text-blue-600 underline">
-                <Link to={`/pdfview?srclink=${encodeURIComponent(filelink)}`} >{title}</Link>
-                {/* {title} */}
+                {/* <Link to={`/pdfview?srclink=${encodeURIComponent(filelink)}`} >{title}</Link> */}
+                {title}
             </div>
             <div className="cursor-pointer">
                 <div className="max-sm:hidden" onClick={handleDownload}>

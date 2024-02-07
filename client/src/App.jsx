@@ -13,7 +13,7 @@ import { userInfoAtom } from "./state/atoms"
 import axios from "axios"
 import Logout from "./pages/Logout"
 import { adminAuthUrl, managerAuthUrl, userPingUrl } from "../urlMap"
-import PdfView from './pages/PdfView'
+// import PdfView from './pages/PdfView'
 
 
 const App = () => {
@@ -76,7 +76,7 @@ const Main = memo(() => {
             <Route path="/auth" element={<AuthPage authUrl={managerAuthUrl} to={'/add'} />} />
             <Route path="/adminauth" element={<AuthPage authUrl={adminAuthUrl} to={'/admin'} />} />
             <Route path="/recent" element={<Recent />} />
-            <Route path="/pdfview" element={<PdfView/>} />
+            {/* <Route path="/pdfview" element={<PdfView/>} /> */}
             <Route path="/admin" element={<Admin />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<NotFound />} />
