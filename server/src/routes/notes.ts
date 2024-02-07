@@ -64,7 +64,7 @@ router.post('/add', isAdminOrManager,upload.single('file'), async (req:CustomReq
 
         const newNote = new Note({
             title: title,
-            auther: req.authData?.userId,
+            author: req.authData?.userId,
             fileUrl: fileUrlFromStore,
             semester,
             section,
