@@ -11,6 +11,9 @@ import { memo, useCallback, useEffect, useState } from "react"
 import { RecoilRoot, useSetRecoilState } from "recoil"
 import { userInfoAtom } from "./state/atoms"
 import axios from "axios"
+import Logout from "./pages/Logout"
+import { managerAuthUrl, userPingUrl } from "../urlMap"
+
 
 
 const App = () => {
@@ -28,7 +31,7 @@ const Main = memo(() => {
     try {
       console.log(localStorage.getItem('token'))
 
-      const res = await axios.post('http://localhost:8080/api/v1/manager/me',{}, {
+      const res = await axios.post(userPingUrl,{}, {
         headers: {
           'token': localStorage.getItem('token')
         }
@@ -70,10 +73,13 @@ const Main = memo(() => {
 
             <Route path="/" element={<Home />} />
             <Route path="/add" element={<Add />} />
-            <Route path="/auth" element={<AuthPage authUrl={'http://localhost:8080/api/v1/manager/auth'} to={'/add'} />} />
+            <Route path="/auth" element={<AuthPage authUrl={managerAuthUrl} to={'/add'} />} />
             <Route path="/recent" element={<Recent />} />
+            {/* <Route path="/pdfview" element={<PdfView/>} /> */}
             <Route path="/admin" element={<Admin />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<NotFound />} />
+            
           </Routes>
         </div>
 

@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom"
 import NoteList from "../components/NoteList"
+import { useCallback, useEffect, useState } from "react"
+import axios from "axios"
+import { notesFilterUrl } from "../../urlMap"
 
 
 
-const Filter = () => {
+const Filter = ({ setSemester, setSection, setSubject, setModule }) => {
     return (
         <div className="flex sm:gap-4 gap-1 items-center bg-zinc-50 rounded-md sm:p-2 py-2 ">
 
@@ -16,14 +19,14 @@ const Filter = () => {
             </div>
 
             <div>
-                <select name="semester" className="sm:px-2 p-1 rounded-lg" >
+                <select name="semester" onChange={setSemester} defaultValue={6} className="sm:px-2 p-1 rounded-lg" >
 
                     <option value="6">sem 6th</option>
                 </select>
             </div>
 
             <div>
-                <select name="section" className="sm:px-2 p-1 rounded-lg" >
+                <select name="section" onChange={setSection} defaultValue={'B'} className="sm:px-2 p-1 rounded-lg" >
 
                     <option value="A">sec A</option>
                     <option value="B">sec B</option>
@@ -31,18 +34,18 @@ const Filter = () => {
             </div>
 
             <div>
-                <select name="subject" className="sm:px-2 p-1 rounded-lg outline-pink-300" onChange={(e) => console.log(e.target.value)} >
+                <select defaultValue={'CS'} name="subject" className="sm:px-2 p-1 rounded-lg outline-pink-300" onChange={setSubject} >
 
                     <option value="SE">SE</option>
                     <option value="CD">CD</option>
-                    <option value="IWT">IWT</option>
+                    <option value="CS">CS</option>
                     <option value="WSN">WSN</option>
                     <option value="SE_LAB">SE L.</option>
                 </select>
             </div>
 
             <div>
-                <select name="module" className="sm:px-2 p-1 rounded-lg" >
+                <select defaultValue={1} name="module" onChange={setModule} className="sm:px-2 p-1 rounded-lg" >
 
                     <option value="1">1st</option>
                     <option value="2">2nd</option>
@@ -63,28 +66,59 @@ const Filter = () => {
 const Home = () => {
     const navigate = useNavigate();
 
+    const [data, setData] = useState([]);
+
+    const [status,setStatus] = useState('idle')
+
+    const [semester, setSemester] = useState(6);
+    const [section, setSection] = useState('B');
+    const [subject, setSubject] = useState('CS');
+    const [module, setModule] = useState(1);
+
+    const filterReq = useCallback(async () => {
+        setStatus('pending')
+        try {
+            const res = await axios.post(notesFilterUrl, {
+                semester, section, subject, module
+            }, {
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            if (res.status == 200) {
+                setData(res.data)
+                
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        setStatus('idle')
+    }, [semester, section, subject, module])
+
+    useEffect(() => {
+        filterReq();
+    }, [semester, section, subject, module])
+
+    
     return (
         <div className="p-2 max-w-6xl bg-red-200s mx-auto ">
-            <Filter />
+            <Filter setSemester={(e)=>setSemester(e.target.value)} setSection={(e)=>setSection(e.target.value)} setSubject={(e)=>setSubject(e.target.value)} setModule={(e)=>setModule(e.target.value)} />
 
             <div className="text-center">or</div>
-            <div className="text-center"> <button onClick={()=>navigate('/recent')} className="p-1 rounded-lg px-2 cursor-pointer bg-gray-100 hover:bg-gray-200">See Recent Uploads</button> </div>
+            <div className="text-center"> <button onClick={() => navigate('/recent')} className="p-1 rounded-lg px-2 cursor-pointer bg-gray-100 hover:bg-gray-200">See Recent Uploads</button> </div>
 
 
             <div className="py-5 text-lg">
                 Notes
             </div>
-            <ul>
-                <Link to={'/auth'} >auth</Link>
-
-                {/* <NoteList/>
-                <NoteList/>
-                <NoteList/>
-                <NoteList/>
-                <NoteList/>
-                <NoteList/>
-                <NoteList/> */}
-            </ul>
+            
+            {status=='idle'?(<ul>
+                {(data.length>0) ? data.map(e => <NoteList date={e.createdAt} filelink={e.fileUrl} title={e.title} key={e._id} />) : ''}
+            </ul>):(
+                <div className="text-xl p-5 text-center">
+                    Loading....
+                </div>
+            )}
 
         </div>
     )

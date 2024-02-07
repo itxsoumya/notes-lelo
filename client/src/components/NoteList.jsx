@@ -1,24 +1,24 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { memo, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+const NoteList = ({ date, title, filelink }) => {
+    
 
-const NoteList = ({date,title,filelink}) => {
- 
     const parsedDate = new Date(date);
     const formattedDate = parsedDate.toLocaleDateString();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const handleDownload = useCallback(() => {
-       
+
         const anchor = document.createElement('a');
         anchor.href = filelink
-        anchor.download = `${title}.pdf`; 
+        anchor.download = `${title}.pdf`;
         document.body.appendChild(anchor);
         anchor.click();
-    
-        
+
+
         document.body.removeChild(anchor);
-      },[]);
+    }, []);
 
     return (
         <li className="sm:text-lg flex gap-2 text-base hover:bg-pink-100 p-1 rounded-md cursor-pointer" >
@@ -26,6 +26,7 @@ const NoteList = ({date,title,filelink}) => {
                 [ {formattedDate} ]
             </div>
             <div className="grow text-blue-500 hover:text-blue-600 underline">
+                {/* <Link to={`/pdfview?srclink=${encodeURIComponent(filelink)}`} >{title}</Link> */}
                 {title}
             </div>
             <div className="cursor-pointer">

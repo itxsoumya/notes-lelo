@@ -27,7 +27,7 @@ router.get('/recent', async (req, res) => {
     }
 })
 
-router.get('/filter', async (req, res) => {
+router.post('/filter', async (req, res) => {
     const { semester, section, subject, module } = req.body;
 
     try {

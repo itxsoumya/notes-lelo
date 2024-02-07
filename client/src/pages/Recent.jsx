@@ -2,13 +2,14 @@ import { useNavigate } from "react-router-dom"
 import NoteList from "../components/NoteList"
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { notesRecentUrl } from "../../urlMap";
 
 const Recent = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const fetchData = useCallback(async () => {
         try {
-            const res = await axios.get('http://localhost:8080/api/v1/notes/recent');
+            const res = await axios.get(notesRecentUrl);
             if (res.status === 200) {
                 console.log(res.data)
                 setData(res.data);
