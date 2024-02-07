@@ -12,13 +12,14 @@ const AuthPage = ({ authUrl, to }) => {
 
     useEffect(()=>{
         if (userInfo && userInfo.isAdmin) {
-            navigate('/')
+            navigate('/admin')
         }
         if(userInfo && to=='/add' && userInfo.isManager){
-            navigate('/')
+            navigate('/add')
         }
     
     },[userInfo])
+
     const check = useCallback(async () => {
         try {
             // console.log(inputData)

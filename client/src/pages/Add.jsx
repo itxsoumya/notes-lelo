@@ -31,7 +31,7 @@ const Add = () => {
 
 
     };
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,7 +57,7 @@ const Add = () => {
                 console.log('success')
             }
         } catch (err) {
-            
+
             console.log(err)
         }
         setIsSubmitting(false)
@@ -99,8 +99,9 @@ const Add = () => {
                     <select required defaultValue={'CD'} onChange={e => setSubject(e.target.value)} name="subject" id="" className="p-2 w-full rounded-md">
                         <option value="SE">SE</option>
                         <option value="CD">CD</option>
-                        <option value="IWT">IWT</option>
+                        <option value="CS">CS</option>
                         <option value="WSN">WSN</option>
+                        <option value="OE">OE</option>
                         <option value="SE_LAB">SE L.</option>
                     </select>
 

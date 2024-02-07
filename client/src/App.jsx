@@ -12,7 +12,7 @@ import { RecoilRoot, useSetRecoilState } from "recoil"
 import { userInfoAtom } from "./state/atoms"
 import axios from "axios"
 import Logout from "./pages/Logout"
-import { managerAuthUrl, userPingUrl } from "../urlMap"
+import { adminAuthUrl, managerAuthUrl, userPingUrl } from "../urlMap"
 
 
 
@@ -74,6 +74,7 @@ const Main = memo(() => {
             <Route path="/" element={<Home />} />
             <Route path="/add" element={<Add />} />
             <Route path="/auth" element={<AuthPage authUrl={managerAuthUrl} to={'/add'} />} />
+            <Route path="/adminauth" element={<AuthPage authUrl={adminAuthUrl} to={'/admin'} />} />
             <Route path="/recent" element={<Recent />} />
             {/* <Route path="/pdfview" element={<PdfView/>} /> */}
             <Route path="/admin" element={<Admin />} />

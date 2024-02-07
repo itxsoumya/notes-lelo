@@ -40,6 +40,7 @@ const Filter = ({ setSemester, setSection, setSubject, setModule }) => {
                     <option value="CD">CD</option>
                     <option value="CS">CS</option>
                     <option value="WSN">WSN</option>
+                    <option value="OE">OE</option>
                     <option value="SE_LAB">SE L.</option>
                 </select>
             </div>
