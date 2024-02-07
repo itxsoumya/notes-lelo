@@ -2,7 +2,7 @@ import axios from "axios";
 
 import FormData from 'form-data'
 
-export const uploadToFileServerAndReturnBackUrl = async (fileStringInBase64: string, title: string) => {
+export const uploadToFileServerAndReturnBackUrl = async (fileBuffer: Buffer, title: string) => {
 
     const token = process.env.DISCORD_TOKEN;
 
@@ -10,12 +10,11 @@ export const uploadToFileServerAndReturnBackUrl = async (fileStringInBase64: str
     const channelId = process.env.DISCORD_CHANNEL_ID;
 
     const filename = title.trim() + '.pdf';
-    const fileBuffer = Buffer.from(fileStringInBase64, 'base64url');
+    
     const formData = new FormData();
     formData.append('file', fileBuffer, {
         filename: filename,
     });
-
     try {
 
         const res = await axios.post(`https://discord.com/api/v10/channels/${channelId}/messages`, formData, {

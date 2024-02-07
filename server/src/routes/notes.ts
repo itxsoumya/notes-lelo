@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { isAdminOrManager } from "../middleware";
+import { CustomRequest, isAdminOrManager } from "../middleware";
 import { uploadToFileServerAndReturnBackUrl } from "../utils";
 import { Note } from "../db";
+import { upload } from "../utils/mutterConfig";
+
 
 
 
@@ -37,19 +39,32 @@ router.get('/filter', async (req, res) => {
     }
 })
 
-router.post('/add', isAdminOrManager, async (req, res) => {
+router.post('/add', isAdminOrManager,upload.single('file'), async (req:CustomRequest, res) => {
     console.log('i am here')
-    const { title, fileUrl, semester, section, subject, module } = req.body;
-    if (!title || !fileUrl || !semester || !section || !subject || !module) {
-        return res.status(400).json({ msg: 'please provide valid title and fileUrl' })
+    const { title, semester, section, subject, module } = req.body;
+
+    const file = req.file;
+
+    // Handle the uploaded file
+    if (!file) {
+        return res.status(400).send('No file uploaded');
     }
+
+    
+
+
+
+    // if (!title || !fileUrl || !semester || !section || !subject || !module) {
+    //     return res.status(400).json({ msg: 'please provide valid title and fileUrl' })
+    // }
+    console.log(req.authData)
     try {
 
-        const fileUrlFromStore = await uploadToFileServerAndReturnBackUrl(fileUrl, title);
+        const fileUrlFromStore = await uploadToFileServerAndReturnBackUrl(file.buffer, title);
 
         const newNote = new Note({
             title: title,
-            auther: req.body.authData.userId,
+            auther: req.authData?.userId,
             fileUrl: fileUrlFromStore,
             semester,
             section,
@@ -57,7 +72,7 @@ router.post('/add', isAdminOrManager, async (req, res) => {
             module
         })
         const note = await newNote.save();
-        // console.log(note);
+        console.log(note);
         return res.json(note);
     } catch (err) {
         console.log(err);

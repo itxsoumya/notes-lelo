@@ -1,16 +1,16 @@
 import { Router } from "express";
 import jwt from 'jsonwebtoken';
 import { User } from "../db";
-import { isAdmin, isAdminOrManager } from "../middleware";
+import { CustomRequest, isAdmin, isAdminOrManager } from "../middleware";
 
 
 const JWT_SECRET = process.env.JWT_SECRET
 const router = Router()
 
 
-router.post('/me', isAdminOrManager, async (req, res) => {
+router.post('/me', isAdminOrManager, async (req:CustomRequest, res) => {
   try {
-    const user = await User.findById(req.body.authData.userId).select('-secretCode');
+    const user = await User.findById(req.authData?.userId).select('-secretCode');
     if (!user) {
       return res.status(403).json({ msg: 'not a manager / admin' });
     }
@@ -37,8 +37,8 @@ router.post('/auth', async (req, res) => {
       return res.status(403).json({ msg: 'please provide a valid secret code' })
     }
     const payload = {
-      username: user?.username,
-      userId: user?._id
+      username: user.username,
+      userId: user._id
     }
     const token = jwt.sign(payload, JWT_SECRET!);
     return res.json({ token,user });

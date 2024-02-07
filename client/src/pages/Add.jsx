@@ -3,14 +3,14 @@ import { userInfoAtom } from "../state/atoms"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import FormData from 'form-data'
 
 const Add = () => {
     const navigate = useNavigate()
     const userInfo = useRecoilValue(userInfoAtom);
 
     const [title, setTitle] = useState('');
-    const [file, setFile] = useState('');
+    const [file, setFile] = useState(null);
     const [semester, setSemester] = useState('')
     const [section, setSection] = useState('');
     const [subject, setSubject] = useState('');
@@ -24,30 +24,29 @@ const Add = () => {
     }, [userInfo])
 
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const fileBase64 = reader.result.split(',')[1];
-                // console.log(fileBase64); 
-                setFile(fileBase64)
-            };
-            reader.readAsDataURL(selectedFile);
+         setFile(e.target.files[0])
+        
 
-
-        }
+        
     };
     //   console.log(file)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('title', title);
+        formData.append('section', section);
+        formData.append('semester', semester);
+        formData.append('subject', subject);
+        formData.append('module', module);
+
         try {
-            const res = await axios.post('http://localhost:8080/api/v1/notes/add', {
-                title, section, semester, subject, module, fileUrl:file
-            }, {
+            const res = await axios.post('http://localhost:8080/api/v1/notes/add', formData, {
                 headers: {
-                    token: localStorage.getItem('token')
+                    'Content-Type': `multipart/form-data`,
+                    token: localStorage.getItem('token'),
                 }
             })
             if (res.status == 200) {
@@ -56,6 +55,21 @@ const Add = () => {
         } catch (err) {
             console.log(err)
         }
+
+        // try {
+        //     const res = await axios.post('http://localhost:8080/api/v1/notes/add', {
+        //         title, section, semester, subject, module, fileUrl:file
+        //     }, {
+        //         headers: {
+        //             token: localStorage.getItem('token')
+        //         }
+        //     })
+        //     if (res.status == 200) {
+        //         console.log('success')
+        //     }
+        // } catch (err) {
+        //     console.log(err)
+        // }
     }
 
     return (
@@ -80,7 +94,7 @@ const Add = () => {
 
                 <div className="mt-4">
                     <label htmlFor="semester">Chose Semester</label>
-                    <select required onChange={e => setSemester(Number(e.target.value))} name="semester" id="" className="p-2 w-full rounded-md">
+                    <select required onChange={e => setSemester(e.target.value)} name="semester" id="" className="p-2 w-full rounded-md">
                         <option value="6" selected>6th</option>
                     </select>
 
@@ -100,7 +114,7 @@ const Add = () => {
                     </select>
 
                     <label htmlFor="module">Chose Module</label>
-                    <select required onChange={e => setModule(Number(e.target.value)} name="module" id="" className="p-2 w-full rounded-md">
+                    <select required onChange={e => setModule(e.target.value)} name="module" id="" className="p-2 w-full rounded-md">
                         <option value="1">1st</option>
                         <option value="2">2nd</option>
                         <option value="3">3rd</option>

@@ -39,10 +39,12 @@ const Main = memo(() => {
         setStatus('success')
       } else {
         setuserInfo(null)
+        setStatus('success')
       }
     } catch (err) {
       console.log(err);
       setuserInfo(null)
+      setStatus('success')
     }
 
   }, [])
