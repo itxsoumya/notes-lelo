@@ -2,7 +2,7 @@ import { memo, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const NoteList = ({ date, title, filelink }) => {
-    
+
 
     const parsedDate = new Date(date);
     const formattedDate = parsedDate.toLocaleDateString();
@@ -23,11 +23,11 @@ const NoteList = ({ date, title, filelink }) => {
     return (
         <li className="sm:text-lg flex gap-2 text-base hover:bg-pink-100 p-1 rounded-md cursor-pointer" >
             <div className="shrink-0">
-                [ {formattedDate} ]
+                [{formattedDate}]
             </div>
             <div className="grow text-blue-500 hover:text-blue-600 underline">
                 {/* <Link to={`/pdfview?srclink=${encodeURIComponent(filelink)}`} >{title}</Link> */}
-                {title}
+                <span onClick={handleDownload} >{title}</span>
             </div>
             <div className="cursor-pointer">
                 <div className="max-sm:hidden" onClick={handleDownload}>
